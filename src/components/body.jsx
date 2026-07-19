@@ -8,6 +8,24 @@ export function Body() {
   const [number, setNumber] = useState("");
   const [experiences, setExperiences] = useState([]);
 
+  function addExperience(
+    company,
+    position,
+    startDate,
+    endDate,
+    responsibilities,
+  ) {
+    const newExperience = {
+      id: crypto.randomUUID(),
+      company,
+      position,
+      startDate,
+      endDate,
+      responsibilities,
+    };
+    setExperiences([...experiences, newExperience]);
+  }
+
   return (
     <div className="body">
       <Editor
@@ -17,8 +35,15 @@ export function Body() {
         setName={setName}
         setEmail={setEmail}
         setNumber={setNumber}
+        experiences={experiences}
+        addExperience={addExperience}
       />
-      <Display name={name} email={email} number={number} />
+      <Display
+        name={name}
+        email={email}
+        number={number}
+        experiences={experiences}
+      />
     </div>
   );
 }

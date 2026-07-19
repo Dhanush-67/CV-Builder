@@ -2,7 +2,16 @@ import { General } from "./general.jsx";
 import { Experience } from "./experience.jsx";
 import { Education } from "./education.jsx";
 
-export function Editor({ name, email, number, setName, setEmail, setNumber }) {
+export function Editor({
+  name,
+  email,
+  number,
+  setName,
+  setEmail,
+  setNumber,
+  experiences,
+  addExperience,
+}) {
   return (
     <div className="editor">
       <General
@@ -13,7 +22,7 @@ export function Editor({ name, email, number, setName, setEmail, setNumber }) {
         setEmail={setEmail}
         setNumber={setNumber}
       />
-      <Experience />
+      <Experience experiences={experiences} addExperience={addExperience} />
       <Education />
     </div>
   );
