@@ -11,6 +11,8 @@ export function Editor({
   setNumber,
   experiences,
   addExperience,
+  deleteExperience,
+  updateExperience,
 }) {
   return (
     <div className="editor">
@@ -22,7 +24,12 @@ export function Editor({
         setEmail={setEmail}
         setNumber={setNumber}
       />
-      <Experience experiences={experiences} addExperience={addExperience} />
+      <Experience
+        experiences={experiences}
+        addExperience={addExperience}
+        deleteExperience={deleteExperience}
+        updateExperience={updateExperience}
+      />
       <Education />
     </div>
   );

@@ -23,7 +23,21 @@ export function Body() {
       endDate,
       responsibilities,
     };
-    setExperiences([...experiences, newExperience]);
+    setExperiences((experiences) => [...experiences, newExperience]);
+  }
+
+  function deleteExperience(id) {
+    setExperiences((experiences) =>
+      experiences.filter((experience) => experience.id !== id),
+    );
+  }
+
+  function updateExperience(id, field, value) {
+    setExperiences((experiences) =>
+      experiences.map((experience) => {
+        experience.id === id ? { ...experience, [field]: value } : experience;
+      }),
+    );
   }
 
   return (
@@ -37,6 +51,8 @@ export function Body() {
         setNumber={setNumber}
         experiences={experiences}
         addExperience={addExperience}
+        deleteExperience={deleteExperience}
+        updateExperience={updateExperience}
       />
       <Display
         name={name}

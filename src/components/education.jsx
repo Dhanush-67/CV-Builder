@@ -24,7 +24,7 @@ export function Education() {
 function EducationModal() {
   return (
     <div>
-      <h2>Fuck you</h2>
+      <h2>F students are inventors</h2>
     </div>
   );
 }

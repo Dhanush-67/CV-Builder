@@ -1,6 +1,11 @@
 import { useState } from "react";
 
-export function Experience({ addExperience }) {
+export function Experience({
+  addExperience,
+  deleteExperience,
+  updateExperience,
+  experiences,
+}) {
   const [isOpen, setIsOpen] = useState(false);
 
   function saveExperience(experience) {
@@ -18,9 +23,26 @@ export function Experience({ addExperience }) {
     <div className="experience">
       <h1 style={{ textDecoration: "underline" }}>Experience</h1>
       {!isOpen && (
-        <button className="experience-button" onClick={() => setIsOpen(true)}>
-          Add Experience
-        </button>
+        <>
+          {/* {experiences.map((experience) => (
+            <div key={experience.id}>
+              <div className="experience-info">
+                <h2 className="experience-company">{experience.company}</h2>
+
+                <p className="experience-dates">
+                  {experience.startDate} - {experience.endDate}
+                </p>
+              </div>
+              <p className="experience-position">{experience.position}</p>
+              <p className="experience-responsibilities">
+                {experience.responsibilities}
+              </p>
+            </div>
+          ))} */}
+          <button className="experience-button" onClick={() => setIsOpen(true)}>
+            Add Experience
+          </button>
+        </>
       )}
 
       {isOpen && (
