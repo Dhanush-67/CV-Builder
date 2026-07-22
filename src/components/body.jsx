@@ -32,10 +32,12 @@ export function Body() {
     );
   }
 
-  function updateExperience(id, field, value) {
+  function updateExperience(argid, updates) {
+    const { id, ...safeUpdates } = updates;
     setExperiences((experiences) =>
       experiences.map((experience) => {
-        experience.id === id ? { ...experience, [field]: value } : experience;
+        if (experience.id !== argid) return experience;
+        return { ...experience, ...safeUpdates };
       }),
     );
   }

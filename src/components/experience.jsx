@@ -7,6 +7,11 @@ export function Experience({
   experiences,
 }) {
   const [isOpen, setIsOpen] = useState(false);
+  const [isEdit, setIsEdit] = useState(null);
+
+  const selectedExperience = experiences.find(
+    (experience) => experience.id === isEdit,
+  );
 
   function saveExperience(experience) {
     addExperience(
@@ -17,6 +22,7 @@ export function Experience({
       experience.responsibilities,
     );
     setIsOpen(false);
+    setIsEdit(null);
   }
 
   return (
@@ -24,21 +30,12 @@ export function Experience({
       <h1 style={{ textDecoration: "underline" }}>Experience</h1>
       {!isOpen && (
         <>
-          {/* {experiences.map((experience) => (
-            <div key={experience.id}>
-              <div className="experience-info">
-                <h2 className="experience-company">{experience.company}</h2>
-
-                <p className="experience-dates">
-                  {experience.startDate} - {experience.endDate}
-                </p>
-              </div>
-              <p className="experience-position">{experience.position}</p>
-              <p className="experience-responsibilities">
-                {experience.responsibilities}
-              </p>
-            </div>
-          ))} */}
+          <ExperienceList
+            experiences={experiences}
+            deleteExperience={deleteExperience}
+            updateExperience={updateExperience}
+            onEdit={setIsEdit}
+          />
           <button className="experience-button" onClick={() => setIsOpen(true)}>
             Add Experience
           </button>
@@ -47,22 +44,39 @@ export function Experience({
 
       {isOpen && (
         <ExperienceModal
+          key="add-experience"
           onSave={saveExperience}
           onClose={() => setIsOpen(false)}
+        />
+      )}
+      {isEdit && (
+        <ExperienceModal
+          key={isEdit}
+          initialExperience={selectedExperience}
+          onSave={saveExperience}
+          onClose={() => setIsEdit(null)}
+          id={isEdit}
+          updateExperience={updateExperience}
         />
       )}
     </div>
   );
 }
 
-function ExperienceModal({ onSave, onClose }) {
-  const [form, setForm] = useState({
-    company: "",
-    position: "",
-    startDate: "",
-    endDate: "",
-    responsibilities: "",
-  });
+function ExperienceModal({
+  initialExperience,
+  onSave,
+  onClose,
+  id,
+  updateExperience,
+}) {
+  const [form, setForm] = useState(() => ({
+    company: initialExperience?.company ?? "",
+    position: initialExperience?.position ?? "",
+    startDate: initialExperience?.startDate ?? "",
+    endDate: initialExperience?.endDate ?? "",
+    responsibilities: initialExperience?.responsibilities ?? "",
+  }));
 
   function handleChange(event) {
     const { name, value } = event.target;
@@ -88,7 +102,12 @@ function ExperienceModal({ onSave, onClose }) {
       return;
     }
 
-    onSave(experience);
+    if (id) {
+      updateExperience(id, experience);
+      onClose();
+    } else {
+      onSave(experience);
+    }
   }
 
   return (
@@ -147,5 +166,23 @@ function ExperienceModal({ onSave, onClose }) {
         Save
       </button>
     </form>
+  );
+}
+
+function ExperienceList({ experiences, deleteExperience, onEdit }) {
+  return (
+    <div className="experience-list">
+      {experiences.map((experience) => (
+        <div key={experience.id} className="experience-item">
+          <h2>{experience.company}</h2>
+          <div className="experience-item-buttons">
+            <button onClick={() => deleteExperience(experience.id)}>
+              Delete
+            </button>
+            <button onClick={() => onEdit(experience.id)}>Edit</button>
+          </div>
+        </div>
+      ))}
+    </div>
   );
 }
